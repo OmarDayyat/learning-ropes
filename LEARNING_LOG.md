@@ -19,6 +19,6 @@ Three lines per sprint: what you learned, what confused you, what to try next.
 
 ### Sprint 0
 
-- Learned:
-- Confused by:
-- Try next:
+- Learned: A PR cant be merged until the reviewer approves
+- Confused by: The branch naming convention, reviewing a PR, Moving about Github and its pages/tabs
+- Try next: Working with a team and more collobration with them
