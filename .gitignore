@@ -2,12 +2,44 @@
 node_modules/
 dist/
 .angular/
+/tmp
+/out-tsc
+/bazel-out
+/coverage
 
 # Secrets: never commit these
 .env
 .env.*
 *token*.txt
 .claude/settings.local.json
+
+# Logs
+npm-debug.log
+yarn-error.log
+/libpeerconnection.log
+testem.log
+
+# Other editors and tool caches
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/*
+.sass-cache/
+/connect.lock
+/typings
+__screenshots__/
+
+# VS Code: share the project files below, ignore personal ones
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
 
 # Editor and OS files
 .DS_Store
