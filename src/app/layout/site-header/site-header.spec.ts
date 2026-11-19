@@ -4,7 +4,7 @@ import { provideRouter, Router } from '@angular/router';
 import { SiteHeader } from './site-header';
 
 // Stand-in pages so the router has somewhere to go in these tests.
-// The real /lessons route comes from Dev A's work in app.routes.ts.
+// The real lesson routes live in app.routes.ts.
 @Component({ template: '' })
 class StubPage {}
 
@@ -30,6 +30,7 @@ describe('SiteHeader', () => {
         provideRouter([
           { path: '', component: StubPage },
           { path: 'lessons', component: StubPage },
+          { path: 'lessons/:slug', component: StubPage },
         ]),
       ],
     }).compileComponents();
@@ -57,6 +58,12 @@ describe('SiteHeader', () => {
 
   it('should mark only Lessons as the current page on /lessons', async () => {
     await renderAt('/lessons');
+    expect(navLink('Lessons')?.getAttribute('aria-current')).toBe('page');
+    expect(navLink('Home')?.hasAttribute('aria-current')).toBe(false);
+  });
+
+  it('should mark Lessons as current on a lesson page like /lessons/setup', async () => {
+    await renderAt('/lessons/setup');
     expect(navLink('Lessons')?.getAttribute('aria-current')).toBe('page');
     expect(navLink('Home')?.hasAttribute('aria-current')).toBe(false);
   });
