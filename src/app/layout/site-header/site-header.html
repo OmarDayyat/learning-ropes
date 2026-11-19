@@ -1,0 +1,32 @@
+<header class="border-b border-slate-200 bg-white">
+  <div class="flex items-center justify-between max-w-5xl gap-4 mx-auto px-4 sm:px-6 py-4">
+    <a
+      routerLink="/"
+      class="rounded-sm text-slate-900 text-lg font-bold hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+    >
+      Learning Ropes
+    </a>
+
+    <!--
+      routerLinkActive adds aria-current="page" to the link of the page you are on.
+      The aria-[current=page]: classes then color and underline that link.
+    -->
+    <nav aria-label="Main">
+      <ul class="flex items-center gap-5">
+        @for (link of links; track link.path) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              routerLinkActive
+              [routerLinkActiveOptions]="{ exact: link.exact }"
+              ariaCurrentWhenActive="page"
+              class="border-b-2 border-transparent rounded-sm text-slate-600 text-sm font-medium hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 aria-[current=page]:border-emerald-600 aria-[current=page]:text-emerald-700 py-1"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
