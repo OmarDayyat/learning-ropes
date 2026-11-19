@@ -1,11 +1,13 @@
 import { InjectionToken } from '@angular/core';
+import { SETUP_LESSON } from './data/00-setup';
+import { FIRST_REVIEW_LESSON } from './data/01-first-review';
 import { Lesson } from './lesson.model';
 
 /**
  * Every lesson on the site, one per sprint topic.
  * Keep the list sorted by sprint. Lessons in the same sprint show in the order they appear here.
  */
-export const LESSONS: Lesson[] = [];
+export const LESSONS: Lesson[] = [SETUP_LESSON, FIRST_REVIEW_LESSON];
 
 /**
  * The lessons the pages show. It is LESSONS unless a test swaps in its own list:
