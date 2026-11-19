@@ -68,6 +68,26 @@ In VS Code: switch to `main`, then **Sync Changes**.
 
 ## 7. Code style
 
-- In Tailwind class lists, put margin and padding classes (`m-*`, `mx-auto`,
-  `p-*` and so on) at the end. Example:
-  `class="max-w-2xl mx-auto px-6 py-16"`.
+### Tailwind class order
+
+Write the classes in a class list in this order of groups. Inside a group, a responsive or state variant
+(`md:`, `lg:`, `sm:`) goes right after the class it changes.
+
+1. **Layout:** display, position and flex or grid settings. `flex`, `grid`, `sticky`, `top-6`,
+   `flex-col`, `flex-wrap`, `items-center`, `grid-cols-1 md:grid-cols-2`
+2. **Size:** `w-*`, `h-*`, `min-w-*`, `max-w-*`
+3. **Border and corners:** `border`, `border-b`, `border-slate-200`, `border-dashed`, `rounded-xl`
+4. **Background:** `bg-*`
+5. **Text:** color, then size, then weight, then any other text classes.
+   `text-slate-600 text-sm font-medium`, then `leading-*`, `tracking-*`, `font-mono`, `underline`
+6. **Effects and states:** `shadow-*`, `transition`, `opacity-*`, then `hover:*`, `focus-visible:*`, `aria-*:`
+7. **Spacing, always last:** `gap-*`, then margin, then padding. `space-x-*` and `space-y-*` count as
+   margin. `mx-auto` is margin.
+
+Example:
+
+```html
+<a class="flex flex-col h-full border border-slate-200 rounded-xl bg-white text-slate-900 text-lg font-semibold transition hover:border-emerald-600 gap-2 mt-4 p-5">
+```
+
+Classes added from code (for example a `[class]` binding or a string in a `.ts` file) follow the same order.

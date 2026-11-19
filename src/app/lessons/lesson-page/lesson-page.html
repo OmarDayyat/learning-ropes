@@ -1,0 +1,150 @@
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+  @if (lesson(); as lesson) {
+    <a
+      routerLink="/lessons"
+      class="text-emerald-700 text-sm font-medium hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+    >
+      <span aria-hidden="true">&larr;</span> All lessons
+    </a>
+
+    <header class="border-b border-slate-200 mt-6 pb-8">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-slate-600 text-sm font-medium">Sprint {{ lesson.sprint }}</span>
+        <span [class]="levelBadgeClasses(lesson.level)">{{ lesson.level }}</span>
+        <span [class]="statusBadgeClasses(lesson.status)">{{ statusLabel(lesson.status) }}</span>
+      </div>
+      <h1 class="text-slate-900 text-3xl sm:text-4xl font-bold mt-3">{{ lesson.title }}</h1>
+      <p class="max-w-2xl text-slate-600 text-lg mt-3">{{ lesson.summary }}</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-12 mt-8">
+      <nav aria-label="On this page" class="lg:sticky lg:top-6 lg:self-start mb-8 lg:mb-0">
+        <p class="text-slate-600 text-xs font-semibold tracking-wide uppercase">On this page</p>
+        <ul class="flex flex-wrap lg:flex-col text-sm gap-x-4 gap-y-2 mt-3">
+          @for (section of sections; track section.id) {
+            <li>
+              <a
+                [routerLink]="['/lessons', lesson.slug]"
+                [fragment]="section.id"
+                class="text-slate-600 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-emerald-600"
+              >
+                {{ section.title }}
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="min-w-0 space-y-12">
+        <section id="brief" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">Brief</h2>
+          <p class="text-slate-700 mt-3">{{ lesson.brief }}</p>
+        </section>
+
+        <section id="learn" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">What you'll learn</h2>
+          <ul class="list-disc text-slate-700 space-y-1 mt-3 pl-5">
+            @for (item of lesson.learn; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </section>
+
+        <section id="steps" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">Steps</h2>
+          <ol class="space-y-10 mt-6">
+            @for (step of lesson.steps; track $index; let n = $index) {
+              <li class="flex gap-4">
+                <span
+                  aria-hidden="true"
+                  class="flex shrink-0 items-center justify-center size-8 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold"
+                  >{{ n + 1 }}</span
+                >
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-slate-900 text-lg font-semibold">{{ step.title }}</h3>
+                  <p class="text-slate-700 mt-1">
+                    <span class="font-semibold">Why:</span> {{ step.why }}
+                  </p>
+                  <div class="mt-4">
+                    <app-lesson-step-tabs [step]="step" [stepNumber]="n + 1" />
+                  </div>
+                </div>
+              </li>
+            }
+          </ol>
+        </section>
+
+        <section id="in-our-repo" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">In our repo</h2>
+          <p class="text-slate-600 mt-3">
+            The real Issues, pull requests and commits from this sprint.
+          </p>
+          <ul class="space-y-2 mt-3">
+            @for (link of lesson.inOurRepo; track link.url) {
+              <li>
+                <a
+                  [href]="link.url"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-emerald-700 font-medium underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                >
+                  {{ link.label }}<span aria-hidden="true"> &#8599;</span
+                  ><span class="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </section>
+
+        <section id="feedback" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">Feedback</h2>
+          <p class="text-slate-600 mt-3">What reviewers said on the pull requests.</p>
+          <ul class="space-y-3 mt-3">
+            @for (item of lesson.feedback; track $index) {
+              <li
+                class="border-l-4 border-emerald-600 rounded-lg bg-slate-50 text-slate-700 px-4 py-3"
+              >
+                {{ item }}
+              </li>
+            }
+          </ul>
+        </section>
+
+        <section id="mistakes" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">Common mistakes</h2>
+          <ul class="list-disc text-slate-700 space-y-1 mt-3 pl-5">
+            @for (item of lesson.mistakes; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </section>
+
+        <section id="check" class="scroll-mt-6">
+          <h2 class="text-slate-900 text-2xl font-semibold">Check yourself</h2>
+          <ul class="space-y-2 mt-3">
+            @for (item of lesson.checklist; track $index) {
+              <li class="flex items-start text-slate-700 gap-3">
+                <span
+                  aria-hidden="true"
+                  class="shrink-0 size-4 border-2 border-slate-400 rounded bg-white mt-1"
+                ></span>
+                <span>{{ item }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+  } @else {
+    <h1 class="text-slate-900 text-3xl font-bold">Lesson not found</h1>
+    <p class="text-slate-600 text-lg mt-3">
+      There is no lesson called "{{ slug() }}". It may have moved, or it isn't written yet.
+    </p>
+    <a
+      routerLink="/lessons"
+      class="inline-block text-emerald-700 font-medium underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 mt-6"
+    >
+      Back to all lessons
+    </a>
+  }
+</div>

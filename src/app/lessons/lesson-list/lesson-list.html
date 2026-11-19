@@ -1,0 +1,51 @@
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+  <h1 class="text-slate-900 text-3xl font-bold">Lessons</h1>
+  <p class="max-w-2xl text-slate-600 text-lg mt-3">
+    Each lesson is one sprint of real teamwork: a short challenge, the steps to solve it, and the
+    Issues and pull requests where the team actually did it.
+  </p>
+
+  @if (lessons.length > 0) {
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      @for (lesson of lessons; track lesson.slug) {
+        <li>
+          <a
+            [routerLink]="['/lessons', lesson.slug]"
+            class="flex flex-col h-full border border-slate-200 rounded-xl transition hover:border-emerald-600 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 p-5"
+            [class.border-dashed]="lesson.status === 'upcoming'"
+            [class.bg-white]="lesson.status !== 'upcoming'"
+            [class.bg-slate-50]="lesson.status === 'upcoming'"
+            [attr.data-status]="lesson.status"
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-slate-600 text-sm font-medium">Sprint {{ lesson.sprint }}</span>
+              <span [class]="levelBadgeClasses(lesson.level)">{{ lesson.level }}</span>
+              <span [class]="statusBadgeClasses(lesson.status)">{{
+                statusLabel(lesson.status)
+              }}</span>
+            </div>
+            <h2
+              class="text-lg font-semibold mt-3"
+              [class.text-slate-900]="lesson.status !== 'upcoming'"
+              [class.text-slate-600]="lesson.status === 'upcoming'"
+            >
+              {{ lesson.title }}
+            </h2>
+            <p class="flex-1 text-slate-600 text-sm mt-2">{{ lesson.summary }}</p>
+            <ul class="flex flex-wrap gap-2 mt-4" aria-label="Skills">
+              @for (skill of lesson.skills; track skill) {
+                <li class="rounded-md bg-slate-100 text-slate-700 text-xs font-mono px-2 py-1">
+                  {{ skill }}
+                </li>
+              }
+            </ul>
+          </a>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="border border-dashed border-slate-200 rounded-xl text-slate-600 mt-8 p-8">
+      Lessons appear here as the team finishes each sprint.
+    </p>
+  }
+</div>
