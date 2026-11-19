@@ -98,7 +98,7 @@ export const FIRST_REVIEW_LESSON: Lesson = {
         'The PR updates by itself. Nobody opens a new PR to fix review comments.',
       vscode: [
         'In Conversation, read each reply under your comments.',
-        'In Files changed, use the commits dropdown to show only the new commits, so you do not reread everything.',
+        'In Files changed, open the "Changes from all commits" dropdown and pick "Show changes since your last review", so you do not reread everything.',
         'If an answer does not convince you, reply in the thread. Asking "why?" again is fine.',
       ],
       commands: [
@@ -115,7 +115,7 @@ export const FIRST_REVIEW_LESSON: Lesson = {
     {
       title: 'Resolve the threads, then approve',
       why:
-        'Resolving a conversation only folds that thread away. It does not change your review. If you ' +
+        'Resolving a conversation folds that thread away and marks it as done. It does not change your review. If you ' +
         'requested changes, the merge stays blocked until you submit a new review that approves.',
       vscode: [
         'Click "Resolve conversation" under each thread you are happy with.',
@@ -135,7 +135,10 @@ export const FIRST_REVIEW_LESSON: Lesson = {
     {
       title: 'After the merge, update your main',
       why: 'The merge happens on GitHub. Your computer only gets the new main when you pull it.',
-      vscode: ['Switch to main (bottom-left corner), then click Sync Changes.'],
+      vscode: [
+        'Switch to main (bottom-left corner), then click Sync Changes.',
+        'If you do not see Sync Changes, click the circling arrows next to the branch name, or Source Control → ··· → Pull.',
+      ],
       commands: [
         { cmd: 'git switch main', explain: 'Moves to the main branch.' },
         { cmd: 'git pull', explain: 'Downloads the merged commits into your main.' },
@@ -160,7 +163,7 @@ export const FIRST_REVIEW_LESSON: Lesson = {
   ],
   feedback: [
     'Your review set a team rule: in Tailwind class lists, margin and padding classes go last. It is now in CONTRIBUTING.md, so every teammate follows it.',
-    'You asked why test files stay when they "do nothing". The honest answer: they never ship with the site, and they catch mistakes. On a tiny page they are not worth much yet, but CI in Sprint 5 and bisect in Sprint 6 need them.',
+    'You asked why test files stay when they "do nothing". The honest answer: they never ship with the site, and they catch mistakes. On a tiny page they are not worth much yet, but CI and git bisect in later sprints need them.',
     'Review fixes come as new commits on the same branch: Dev A pushed two, and PR #4 updated by itself.',
     'Resolving all the threads did not unblock the merge. Your approval did.',
   ],

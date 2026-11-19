@@ -32,7 +32,7 @@ export const SETUP_LESSON: Lesson = {
       vscode: [
         'In the browser, open github.com/settings/security and check that two-factor authentication is on.',
         'Open github.com/settings/emails and check that the email Git uses is listed there.',
-        'In VS Code, open a terminal with Terminal → New Terminal (Ctrl+`) to see or set your Git name and email.',
+        'In VS Code, open a terminal with Terminal → New Terminal (Ctrl+Shift+`) to see or set your Git name and email.',
       ],
       commands: [
         {
@@ -54,13 +54,20 @@ export const SETUP_LESSON: Lesson = {
       title: 'Install the GitHub CLI and Node.js',
       why:
         'The GitHub CLI (gh) works with Issues and pull requests from the terminal. Node.js runs the ' +
-        'Angular tools that build the site. Angular 22 needs Node 22.22.3 or newer, 24.15 or newer, or 26.',
+        'Angular tools that build the site. Angular 22 needs Node 22 (22.22.3 or later), Node 24 ' +
+        '(24.15 or later), or Node 26 or later.',
       vscode: [
-        'Open a terminal in VS Code (Ctrl+`). Installing tools happens in the terminal, not in Source Control.',
+        'Open a terminal in VS Code (Terminal → New Terminal, Ctrl+Shift+`). Installing tools happens in the terminal, not in Source Control.',
         'After installing, close and reopen VS Code so its terminals see the new programs.',
+        'If nvm use says it needs more rights, run it once in a terminal opened as administrator.',
       ],
       commands: [
         { cmd: 'winget install --id GitHub.cli', explain: 'Installs the GitHub CLI on Windows.' },
+        {
+          cmd: 'winget install --id CoreyButler.NVMforWindows -e',
+          explain:
+            'Installs nvm for Windows (Node Version Manager), which lets you keep several Node versions. -e means the id must match exactly.',
+        },
         {
           cmd: 'nvm install 26.13.1',
           explain:
@@ -104,8 +111,8 @@ export const SETUP_LESSON: Lesson = {
       vscode: [
         'Open the empty project folder in VS Code.',
         'Source Control (Ctrl+Shift+G) → Initialize Repository.',
-        'Create README.md and save it. It appears under Changes.',
-        'Click the file to see the diff: green lines are added, red lines are removed.',
+        'Create README.md and save it. It appears under Changes with a U (untracked: Git has never seen it).',
+        'For a file Git already knows, clicking it under Changes opens the diff: green lines are added, red lines are removed. A brand-new file simply opens.',
         'Click + next to the file to stage it. Staged files go into the next commit.',
         'Type a message, for example "Add README.md", and click Commit.',
       ],
@@ -115,7 +122,11 @@ export const SETUP_LESSON: Lesson = {
           explain: 'Turns the folder into a Git repo whose first branch is main.',
         },
         { cmd: 'git status', explain: 'Lists changed, staged and untracked files. Run it often.' },
-        { cmd: 'git diff', explain: 'Shows the changed lines that are not staged yet.' },
+        {
+          cmd: 'git diff',
+          explain:
+            'Shows the changed lines that are not staged yet. A brand-new file does not show up here until you git add it. Then use git diff --staged.',
+        },
         { cmd: 'git add README.md', explain: 'Stages one file for the next commit.' },
         { cmd: 'git diff --staged', explain: 'Shows exactly what the next commit will contain.' },
         {
@@ -142,9 +153,14 @@ export const SETUP_LESSON: Lesson = {
             'Creates the GitHub repo from this folder, adds it as origin and pushes your commits.',
         },
         {
+          cmd: 'git remote add origin https://github.com/<you>/learning-ropes.git',
+          explain:
+            'The plain-Git way, step 1: after creating an empty repo on github.com, tells your local repo where its GitHub copy is, under the name origin.',
+        },
+        {
           cmd: 'git push -u origin main',
           explain:
-            'The plain-Git way to push: sends main to origin. -u remembers origin/main as its upstream, ' +
+            'Step 2: sends main to origin. -u remembers origin/main as its upstream, ' +
             'so later a bare git push or git pull knows where to go.',
         },
       ],
@@ -170,17 +186,21 @@ export const SETUP_LESSON: Lesson = {
       title: 'Add teammates and protect main',
       why:
         'Collaborators can push branches to the repo. A protected main cannot be pushed to directly: every ' +
-        'change needs a pull request with one approval. That is what makes code review real.',
+        'change needs a pull request with one approval. That is what makes code review real. One catch: ' +
+        'admins, like the repo owner, can still bypass the rule unless "Do not allow bypassing the above ' +
+        'settings" is ticked. In this repo it is not ticked, and the team agreed to use pull requests anyway.',
       vscode: [
         'On GitHub: Settings → Collaborators → Add people, then the invited account accepts.',
         'Settings → Branches → Add classic branch protection rule.',
         'Branch name pattern: main. Tick "Require a pull request before merging" and "Require approvals" (1). Create.',
+        'Optional: also tick "Do not allow bypassing the above settings", so the rule binds admins too.',
         'Create the labels and milestones the team uses: Issues → Labels, and Issues → Milestones.',
       ],
       commands: [
         {
-          cmd: 'gh api -X PUT repos/OmarDayyat/learning-ropes/collaborators/jakezooz99Bot',
-          explain: 'Invites an account as a collaborator. The other account still has to accept.',
+          cmd: 'gh api -X PUT repos/<owner>/<repo>/collaborators/<username>',
+          explain:
+            'Invites an account as a collaborator. We used it for our bot account, jakezooz99Bot. The other account still has to accept.',
         },
         {
           cmd: 'gh api repos/OmarDayyat/learning-ropes/branches/main/protection',
@@ -199,7 +219,7 @@ export const SETUP_LESSON: Lesson = {
         'Other people merge into main on GitHub. Your copy only changes when you pull. Then npm installs ' +
         'the packages the site needs and starts a local server.',
       vscode: [
-        'Make sure the bottom-left corner shows main, then click Sync Changes in Source Control.',
+        'Make sure the bottom-left corner shows main, then click Sync Changes in Source Control. If you do not see it, click the circling arrows next to the branch name, or Source Control → ··· → Pull.',
         'Open a terminal and run npm install, then npm start.',
         'Open http://localhost:4200. Stop the server with Ctrl+C.',
       ],
@@ -231,7 +251,7 @@ export const SETUP_LESSON: Lesson = {
   feedback: [
     "Write the team rules down. Agents start every session with no memory, so CLAUDE.md, TEAM.md and CONTRIBUTING.md are the team's memory.",
     "Secrets never go in a public repo. The bot's token lives in a file outside the project, and .gitignore has a secrets section.",
-    'Once main is protected, even the repo owner works through pull requests. That is how every change gets a second pair of eyes.',
+    'Once main is protected, the team works through pull requests. The owner could still bypass the rule as an admin, but we agreed not to. That is how every change gets a second pair of eyes.',
   ],
   mistakes: [
     'Having two Node versions and getting the wrong one. nvm can hide a Node installed another way, so check with node --version.',
