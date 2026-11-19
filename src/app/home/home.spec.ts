@@ -48,7 +48,7 @@ describe('Home', () => {
     });
 
     it('should mark exactly one sprint as Current', () => {
-      const badges = Array.from(compiled.querySelectorAll('ol > li h3 + span'));
+      const badges = Array.from(compiled.querySelectorAll('ol > li ui-badge'));
       const current = badges.filter((badge) => badge.textContent?.trim() === 'Current');
       expect(current.length).toBe(1);
       expect(compiled.querySelector('li[aria-current="step"]')?.textContent).toContain(

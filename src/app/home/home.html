@@ -15,9 +15,9 @@
     <ol class="space-y-3 mt-6">
       @for (step of steps; track step.sprint) {
         <li
-          class="flex items-start border rounded-xl bg-white gap-4 p-4 sm:p-5"
-          [class.border-violet-300]="step.status === 'current'"
-          [class.border-slate-200]="step.status !== 'current'"
+          uiCard
+          [variant]="step.status === 'current' ? 'highlighted' : 'default'"
+          class="flex items-start gap-4 p-4 sm:p-5"
           [attr.aria-current]="step.status === 'current' ? 'step' : null"
         >
           <span
@@ -31,12 +31,7 @@
               <h3 class="text-slate-900 font-semibold">
                 <span class="sr-only">Sprint {{ step.sprint }}: </span>{{ step.skill }}
               </h3>
-              <span
-                class="rounded-full text-xs font-semibold px-2.5 py-0.5"
-                [class]="badgeClasses[step.status]"
-              >
-                {{ statusLabels[step.status] }}
-              </span>
+              <ui-badge [status]="step.status" />
             </div>
             <p class="text-slate-600 text-sm mt-1">{{ step.description }}</p>
           </div>
@@ -45,12 +40,7 @@
     </ol>
 
     <p class="mt-8">
-      <a
-        routerLink="/lessons"
-        class="rounded-sm text-emerald-700 font-semibold hover:text-emerald-800 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-      >
-        Browse the lessons →
-      </a>
+      <a uiLink="standalone" routerLink="/lessons">Browse the lessons →</a>
     </p>
   </section>
 </div>
