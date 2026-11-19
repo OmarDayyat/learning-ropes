@@ -7,6 +7,7 @@ dist/
 .env
 .env.*
 *token*.txt
+.claude/settings.local.json
 
 # Editor and OS files
 .DS_Store
