@@ -1,12 +1,14 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { levelBadgeClasses, statusBadgeClasses, statusLabel } from '../lesson-badges';
+import { Badge } from '../../ui/badge/badge';
+import { CodeBlock } from '../../ui/code-block/code-block';
+import { Link } from '../../ui/link/link';
+import { Tab, Tabs } from '../../ui/tabs/tabs';
 import { ALL_LESSONS, findLesson } from '../lessons';
-import { LessonStepTabs } from './lesson-step-tabs';
 
 @Component({
   selector: 'app-lesson-page',
-  imports: [RouterLink, LessonStepTabs],
+  imports: [RouterLink, Badge, CodeBlock, Link, Tab, Tabs],
   templateUrl: './lesson-page.html',
 })
 export class LessonPage {
@@ -25,10 +27,6 @@ export class LessonPage {
     { id: 'mistakes', title: 'Common mistakes' },
     { id: 'check', title: 'Check yourself' },
   ];
-
-  protected readonly levelBadgeClasses = levelBadgeClasses;
-  protected readonly statusBadgeClasses = statusBadgeClasses;
-  protected readonly statusLabel = statusLabel;
 
   private readonly allLessons = inject(ALL_LESSONS);
 }

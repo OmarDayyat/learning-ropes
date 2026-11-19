@@ -17,7 +17,14 @@ describe('LessonPage', () => {
 
   /** The two tab buttons of one step: [VS Code, Command line]. */
   function tabs(stepNumber: number): HTMLButtonElement[] {
-    return Array.from(page.querySelectorAll(`[id^="step-${stepNumber}-tab-"]`));
+    const step = page.querySelectorAll('#steps > ol > li')[stepNumber - 1];
+    return Array.from(step.querySelectorAll('[role="tab"]'));
+  }
+
+  /** The panel of one step's tab, found through the tab's aria-controls. */
+  function panel(stepNumber: number, tab: 'vscode' | 'cli'): HTMLElement {
+    const [vscode, cli] = tabs(stepNumber);
+    return byId((tab === 'vscode' ? vscode : cli).getAttribute('aria-controls')!);
   }
 
   function byId(id: string): HTMLElement {
@@ -129,9 +136,9 @@ describe('LessonPage', () => {
       expect(new Set(ids).size).toBe(ids.length);
 
       for (const tab of [...tabs(1), ...tabs(2)]) {
-        const panel = byId(tab.getAttribute('aria-controls')!);
-        expect(panel.getAttribute('role')).toBe('tabpanel');
-        expect(panel.getAttribute('aria-labelledby')).toBe(tab.id);
+        const tabPanel = byId(tab.getAttribute('aria-controls')!);
+        expect(tabPanel.getAttribute('role')).toBe('tabpanel');
+        expect(tabPanel.getAttribute('aria-labelledby')).toBe(tab.id);
       }
     });
 
@@ -141,9 +148,9 @@ describe('LessonPage', () => {
       expect(cli.getAttribute('aria-selected')).toBe('false');
       expect(vscode.tabIndex).toBe(0);
       expect(cli.tabIndex).toBe(-1);
-      expect(byId('step-1-panel-vscode').hidden).toBe(false);
-      expect(byId('step-1-panel-cli').hidden).toBe(true);
-      expect(byId('step-1-panel-vscode').querySelectorAll('ol > li').length).toBe(2);
+      expect(panel(1, 'vscode').hidden).toBe(false);
+      expect(panel(1, 'cli').hidden).toBe(true);
+      expect(panel(1, 'vscode').querySelectorAll('ol > li').length).toBe(2);
     });
 
     it('should switch tabs on click, for that step only', async () => {
@@ -151,20 +158,20 @@ describe('LessonPage', () => {
       await fixture.whenStable();
 
       expect(tabs(1)[1].getAttribute('aria-selected')).toBe('true');
-      expect(byId('step-1-panel-cli').hidden).toBe(false);
-      expect(byId('step-1-panel-vscode').hidden).toBe(true);
+      expect(panel(1, 'cli').hidden).toBe(false);
+      expect(panel(1, 'vscode').hidden).toBe(true);
       expect(tabs(2)[0].getAttribute('aria-selected')).toBe('true');
-      expect(byId('step-2-panel-cli').hidden).toBe(true);
+      expect(panel(2, 'cli').hidden).toBe(true);
     });
 
     it('should show each command in a code block with its explanation', async () => {
       tabs(2)[1].click();
       await fixture.whenStable();
 
-      const panel = byId('step-2-panel-cli');
-      const commands = Array.from(panel.querySelectorAll('pre code')).map((c) => c.textContent);
+      const cliPanel = panel(2, 'cli');
+      const commands = Array.from(cliPanel.querySelectorAll('pre code')).map((c) => c.textContent);
       expect(commands).toEqual(['git add .', 'git commit -m "docs: fix typo"']);
-      expect(panel.textContent).toContain('Stages every changed file.');
+      expect(cliPanel.textContent).toContain('Stages every changed file.');
     });
 
     it('should move between tabs with the Left and Right arrow keys', async () => {
