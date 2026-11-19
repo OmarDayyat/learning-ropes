@@ -1,0 +1,13 @@
+# Dependencies and build output
+node_modules/
+dist/
+.angular/
+
+# Secrets: never commit these
+.env
+.env.*
+*token*.txt
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
