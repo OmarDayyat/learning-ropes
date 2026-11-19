@@ -39,6 +39,10 @@ describe('LessonPage', () => {
   describe('with a known slug', () => {
     beforeEach(() => render('sample'));
 
+    it('should not have its own <main> (the layout in app.html provides it)', () => {
+      expect(page.querySelector('main')).toBeNull();
+    });
+
     it('should show one h1 with the lesson title', () => {
       const headings = page.querySelectorAll('h1');
       expect(headings.length).toBe(1);
@@ -187,6 +191,7 @@ describe('LessonPage', () => {
     it('should say the lesson was not found', () => {
       expect(page.querySelector('h1')?.textContent).toContain('Lesson not found');
       expect(page.querySelectorAll('section').length).toBe(0);
+      expect(page.querySelector('main')).toBeNull();
     });
 
     it('should link back to the lessons list', () => {

@@ -21,10 +21,16 @@ describe('LessonList', () => {
     expect(page.querySelector('h1')?.textContent).toContain('Lessons');
   });
 
+  it('should not have its own <main> (the layout in app.html provides it)', async () => {
+    const page = await render(SAMPLE_LESSONS);
+    expect(page.querySelector('main')).toBeNull();
+  });
+
   it('should show a friendly message when there are no lessons', async () => {
     const page = await render([]);
     expect(page.textContent).toContain('Lessons appear here as the team finishes each sprint.');
     expect(page.querySelectorAll('a').length).toBe(0);
+    expect(page.querySelector('main')).toBeNull();
   });
 
   it('should show one card per lesson, sorted by sprint', async () => {
