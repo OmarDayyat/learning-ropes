@@ -1,17 +1,14 @@
 <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
   @if (lesson(); as lesson) {
-    <a
-      routerLink="/lessons"
-      class="text-emerald-700 text-sm font-medium hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-    >
+    <a uiLink="standalone" routerLink="/lessons" class="text-sm">
       <span aria-hidden="true">&larr;</span> All lessons
     </a>
 
     <header class="border-b border-slate-200 mt-6 pb-8">
       <div class="flex flex-wrap items-center gap-2">
         <span class="text-slate-600 text-sm font-medium">Sprint {{ lesson.sprint }}</span>
-        <span [class]="levelBadgeClasses(lesson.level)">{{ lesson.level }}</span>
-        <span [class]="statusBadgeClasses(lesson.status)">{{ statusLabel(lesson.status) }}</span>
+        <ui-badge [level]="lesson.level" />
+        <ui-badge [status]="lesson.status" />
       </div>
       <h1 class="text-slate-900 text-3xl sm:text-4xl font-bold mt-3">{{ lesson.title }}</h1>
       <p class="max-w-2xl text-slate-600 text-lg mt-3">{{ lesson.summary }}</p>
@@ -26,7 +23,7 @@
               <a
                 [routerLink]="['/lessons', lesson.slug]"
                 [fragment]="section.id"
-                class="text-slate-600 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-emerald-600"
+                class="text-slate-600 hover:text-emerald-800 focus-ring"
               >
                 {{ section.title }}
               </a>
@@ -65,9 +62,28 @@
                   <p class="text-slate-700 mt-1">
                     <span class="font-semibold">Why:</span> {{ step.why }}
                   </p>
-                  <div class="mt-4">
-                    <app-lesson-step-tabs [step]="step" [stepNumber]="n + 1" />
-                  </div>
+                  <ui-tabs [label]="'Ways to do step ' + (n + 1)" class="mt-4">
+                    <ui-tab label="VS Code">
+                      <ol class="list-decimal text-slate-700 space-y-2 pl-5">
+                        @for (line of step.vscode; track $index) {
+                          <li>{{ line }}</li>
+                        } @empty {
+                          <li class="list-none text-slate-600">No VS Code steps for this one.</li>
+                        }
+                      </ol>
+                    </ui-tab>
+                    <ui-tab label="Command line">
+                      <ul class="space-y-4">
+                        @for (command of step.commands; track $index) {
+                          <li>
+                            <ui-code-block [code]="command.cmd" [explain]="command.explain" />
+                          </li>
+                        } @empty {
+                          <li class="text-slate-600">No commands for this one.</li>
+                        }
+                      </ul>
+                    </ui-tab>
+                  </ui-tabs>
                 </div>
               </li>
             }
@@ -82,12 +98,7 @@
           <ul class="space-y-2 mt-3">
             @for (link of lesson.inOurRepo; track link.url) {
               <li>
-                <a
-                  [href]="link.url"
-                  target="_blank"
-                  rel="noopener"
-                  class="text-emerald-700 font-medium underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-                >
+                <a uiLink [href]="link.url" target="_blank" rel="noopener">
                   {{ link.label }}<span aria-hidden="true"> &#8599;</span
                   ><span class="sr-only"> (opens in a new tab)</span>
                 </a>
@@ -140,11 +151,6 @@
     <p class="text-slate-600 text-lg mt-3">
       There is no lesson called "{{ slug() }}". It may have moved, or it isn't written yet.
     </p>
-    <a
-      routerLink="/lessons"
-      class="inline-block text-emerald-700 font-medium underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 mt-6"
-    >
-      Back to all lessons
-    </a>
+    <a uiLink routerLink="/lessons" class="inline-block mt-6"> Back to all lessons </a>
   }
 </div>

@@ -1,10 +1,10 @@
-export type SprintStatus = 'done' | 'current' | 'upcoming';
+import { Status } from '../lessons/lesson.model';
 
 export interface LearningPathStep {
   sprint: number;
   skill: string;
   description: string;
-  status: SprintStatus;
+  status: Status;
 }
 
 export const LEARNING_PATH: readonly LearningPathStep[] = [
@@ -51,15 +51,3 @@ export const LEARNING_PATH: readonly LearningPathStep[] = [
     status: 'upcoming',
   },
 ];
-
-export const STATUS_LABELS: Record<SprintStatus, string> = {
-  done: 'Done',
-  current: 'Current',
-  upcoming: 'Coming up',
-};
-
-export const STATUS_BADGE_CLASSES: Record<SprintStatus, string> = {
-  done: 'bg-emerald-50 text-emerald-700',
-  current: 'bg-violet-100 text-violet-800',
-  upcoming: 'bg-slate-100 text-slate-600',
-};

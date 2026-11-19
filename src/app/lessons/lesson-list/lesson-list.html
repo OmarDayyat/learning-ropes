@@ -10,19 +10,16 @@
       @for (lesson of lessons; track lesson.slug) {
         <li>
           <a
+            uiCard
+            [variant]="lesson.status === 'upcoming' ? 'muted' : 'default'"
             [routerLink]="['/lessons', lesson.slug]"
-            class="flex flex-col h-full border border-slate-200 rounded-xl transition hover:border-emerald-600 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 p-5"
-            [class.border-dashed]="lesson.status === 'upcoming'"
-            [class.bg-white]="lesson.status !== 'upcoming'"
-            [class.bg-slate-50]="lesson.status === 'upcoming'"
+            class="flex flex-col h-full p-5"
             [attr.data-status]="lesson.status"
           >
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-slate-600 text-sm font-medium">Sprint {{ lesson.sprint }}</span>
-              <span [class]="levelBadgeClasses(lesson.level)">{{ lesson.level }}</span>
-              <span [class]="statusBadgeClasses(lesson.status)">{{
-                statusLabel(lesson.status)
-              }}</span>
+              <ui-badge [level]="lesson.level" />
+              <ui-badge [status]="lesson.status" />
             </div>
             <h2
               class="text-lg font-semibold mt-3"
@@ -44,7 +41,7 @@
       }
     </ul>
   } @else {
-    <p class="border border-dashed border-slate-200 rounded-xl text-slate-600 mt-8 p-8">
+    <p uiCard variant="muted" class="text-slate-600 mt-8 p-8">
       Lessons appear here as the team finishes each sprint.
     </p>
   }

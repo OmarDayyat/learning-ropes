@@ -70,8 +70,10 @@ In VS Code: switch to `main`, then **Sync Changes**.
 
 ### Tailwind class order
 
-Write the classes in a class list in this order of groups. Inside a group, a responsive or state variant
-(`md:`, `lg:`, `sm:`) goes right after the class it changes.
+Write the classes in a class list in this order of groups. Inside a group, a screen-size variant
+(`sm:`, `md:`, `lg:`) goes right after the class it changes. State variants (`hover:`, `focus-visible:`,
+`aria-*:`) go in group 6: `hover:` first, then `focus-visible:`, then `aria-*:`.
+A named utility from src/styles.css (like `focus-ring`) goes in the group of the classes it replaces.
 
 1. **Layout:** display, position and flex or grid settings. `flex`, `grid`, `sticky`, `top-6`,
    `flex-col`, `flex-wrap`, `items-center`, `grid-cols-1 md:grid-cols-2`

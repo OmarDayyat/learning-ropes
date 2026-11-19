@@ -1,1 +1,18 @@
 @import 'tailwindcss';
+
+/*
+ * Named utilities: a few tiny bits that repeat across the site and aren't worth a component.
+ * Keep this list short. Each one is listed, with its reason, in the plan page's
+ * "Custom classes" table. Shared looks with markup belong in an Angular component in src/app/ui/.
+ */
+
+/*
+ * The emerald outline a link, button or tab shows when you reach it with the keyboard.
+ * Same as: focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600
+ */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-emerald-600);
+    outline-offset: 2px;
+  }
+}
