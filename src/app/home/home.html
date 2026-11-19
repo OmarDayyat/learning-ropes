@@ -1,6 +1,56 @@
-<main class="max-w-2xl mx-auto px-6 py-16">
-  <h1 class="text-4xl font-bold text-emerald-700">Learning Ropes</h1>
-  <p class="text-lg text-slate-600 mt-4">
-    A website about learning Git and GitHub as part of a team, built while learning it.
-  </p>
-</main>
+<div class="max-w-5xl mx-auto px-4 sm:px-6">
+  <section class="py-12">
+    <h1 class="text-4xl font-bold text-emerald-700">Learning Ropes</h1>
+    <p class="max-w-2xl text-lg text-slate-600 mt-4">
+      A website about learning Git and GitHub as part of a team, built while learning it.
+    </p>
+  </section>
+
+  <section aria-labelledby="learning-path-heading" class="pb-12">
+    <h2 id="learning-path-heading" class="text-2xl font-bold text-slate-900">Learning path</h2>
+    <p class="max-w-2xl text-slate-600 mt-2">
+      Each sprint teaches one Git skill. Finished sprints become lessons you can come back to.
+    </p>
+
+    <ol class="space-y-3 mt-6">
+      @for (step of steps; track step.sprint) {
+        <li
+          class="flex items-start gap-4 rounded-xl border bg-white p-4 sm:p-5"
+          [class.border-violet-300]="step.status === 'current'"
+          [class.border-slate-200]="step.status !== 'current'"
+          [attr.aria-current]="step.status === 'current' ? 'step' : null"
+        >
+          <span
+            aria-hidden="true"
+            class="flex size-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700"
+          >
+            {{ step.sprint }}
+          </span>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h3 class="font-semibold text-slate-900">
+                <span class="sr-only">Sprint {{ step.sprint }}: </span>{{ step.skill }}
+              </h3>
+              <span
+                class="rounded-full text-xs font-semibold px-2.5 py-0.5"
+                [class]="badgeClasses[step.status]"
+              >
+                {{ statusLabels[step.status] }}
+              </span>
+            </div>
+            <p class="text-sm text-slate-600 mt-1">{{ step.description }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+
+    <p class="mt-8">
+      <a
+        routerLink="/lessons"
+        class="rounded-sm font-semibold text-emerald-700 hover:text-emerald-800 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+      >
+        Browse the lessons →
+      </a>
+    </p>
+  </section>
+</div>
