@@ -65,3 +65,9 @@ A pull request (PR) asks the team to merge your branch into `main`.
 
 The Team Lead merges approved PRs. After a merge, switch to `main` and pull.
 In VS Code: switch to `main`, then **Sync Changes**.
+
+## 7. Code style
+
+- In Tailwind class lists, put margin and padding classes (`m-*`, `mx-auto`,
+  `p-*` and so on) at the end. Example:
+  `class="max-w-2xl mx-auto px-6 py-16"`.
