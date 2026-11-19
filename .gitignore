@@ -1,0 +1,14 @@
+# Dependencies and build output
+node_modules/
+dist/
+.angular/
+
+# Secrets: never commit these
+.env
+.env.*
+*token*.txt
+.claude/settings.local.json
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
